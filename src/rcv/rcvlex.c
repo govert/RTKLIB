@@ -239,6 +239,7 @@ static int decode_lexr(raw_t *raw)
     if (raw->outtype) {
         sprintf(raw->msgtype,"LEXR 0x%04X (%4d): stat=%08X week=%d tow=%10.3f",
                 type,raw->len,stat,week,tow/1000.0);
+    }
     
     switch (type) {
         case ID_LEXRAW: return decode_lexraw(raw);
