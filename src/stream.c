@@ -847,10 +847,11 @@ static int recv_nb(socket_t sock, unsigned char *buff, int n)
 {
     struct timeval tv={0};
     fd_set rs;
+    int nr;
     
     FD_ZERO(&rs); FD_SET(sock,&rs);
     if (!select(sock+1,&rs,NULL,NULL,&tv)) return 0;
-    return recv(sock,(char *)buff,n,0);
+    return (nr=recv(sock,(char *)buff,n,0))?nr:-1;
 }
 /* non-block send ------------------------------------------------------------*/
 static int send_nb(socket_t sock, unsigned char *buff, int n)
