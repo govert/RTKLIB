@@ -175,29 +175,23 @@ static int decode_sirfnlmeas(raw_t *raw)
 /* save subframe -------------------------------------------------------------*/
 static int save_subfrm(int sat, raw_t *raw)
 {
-    unsigned char *p=raw->buff+7,*q;
-    int i,id;
-    unsigned int word;
-
-    word=U4(p+4);
-    if (word&0x40000000) word^=0x3FFFFFC0;
-    id=(word>>8)&0x7;
-
-    trace(4,"save_subfrm: sat=%2d id=%d\n",sat,id);
-
-    if (id<1||5<id) return 0;
-
-    q=raw->subfrm[sat-1]+(id-1)*30;
+    unsigned int i,id,word;
+    unsigned char *p=raw->buff+7;
+    unsigned char subfrm[30];
 
     for (i=0;i<10;i++) {
         word=U4(p+i*4);
-        if (!decode_word(word,q)) {
-            trace(4,"save_subfrm: parity error sat=%2d id=%d i=%d word=%08x\n",sat,id,i,word);
-            q[0]=q[1]=q[2]=0;
+        if (!decode_word(word,subfrm+i*3)) {
+            trace(4,"save_subfrm: parity error sat=%2d i=%d word=%08x\n",sat,i,word);
             return 0;
         }
-        q+=3;
     }
+
+    id=getbitu(subfrm,43,3);
+    if (id<1||5<id) return 0;
+
+    trace(4,"save_subfrm: sat=%2d id=%d\n",sat,id);
+    memcpy(raw->subfrm[sat-1]+(id-1)*30,subfrm,30);
 
     return id;
 }
