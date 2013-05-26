@@ -370,17 +370,13 @@ extern "C" {
 #define STRFMT_NVS   10                 /* stream format: NVS NVC08C */
 #define STRFMT_BINEX 11                 /* stream format: BINEX */
 #define STRFMT_LEXR  12                 /* stream format: Furuno LPY-10000 */
-#define STRFMT_SIRF  13                 /* stream format: SiRF    (reserved) */
+#define STRFMT_SIRF  13                 /* stream format: SiRF */
 #define STRFMT_RINEX 14                 /* stream format: RINEX */
 #define STRFMT_SP3   15                 /* stream format: SP3 */
 #define STRFMT_RNXCLK 16                /* stream format: RINEX CLK */
 #define STRFMT_SBAS  17                 /* stream format: SBAS messages */
 #define STRFMT_NMEA  18                 /* stream format: NMEA 0183 */
-#ifndef EXTLEX
-#define MAXRCVFMT    11                 /* max number of receiver format */
-#else
-#define MAXRCVFMT    12
-#endif
+#define MAXRCVFMT    13                 /* max number of receiver format */
 
 #define STR_MODE_R  0x1                 /* stream mode: read */
 #define STR_MODE_W  0x2                 /* stream mode: write */
@@ -1476,6 +1472,7 @@ extern int input_javad (raw_t *raw, unsigned char data);
 extern int input_nvs   (raw_t *raw, unsigned char data);
 extern int input_bnx   (raw_t *raw, unsigned char data);
 extern int input_lexr  (raw_t *raw, unsigned char data);
+extern int input_sirf  (raw_t *raw, unsigned char data);
 extern int input_oem4f (raw_t *raw, FILE *fp);
 extern int input_oem3f (raw_t *raw, FILE *fp);
 extern int input_ubxf  (raw_t *raw, FILE *fp);
@@ -1486,7 +1483,7 @@ extern int input_gw10f (raw_t *raw, FILE *fp);
 extern int input_javadf(raw_t *raw, FILE *fp);
 extern int input_nvsf  (raw_t *raw, FILE *fp);
 extern int input_bnxf  (raw_t *raw, FILE *fp);
-extern int input_lexrf (raw_t *raw, FILE *fp);
+extern int input_sirff (raw_t *raw, FILE *fp);
 
 extern int gen_ubx (const char *msg, unsigned char *buff);
 extern int gen_stq (const char *msg, unsigned char *buff);

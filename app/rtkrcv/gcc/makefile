@@ -13,8 +13,8 @@ LDLIBS  = -lm -lrt -lpthread
 all        : rtkrcv
 rtkrcv     : rtkrcv.o rtkcmn.o rtksvr.o rtkpos.o geoid.o solution.o lambda.o
 rtkrcv     : sbas.o stream.o rcvraw.o rtcm.o preceph.o options.o pntpos.o ppp.o ppp_ar.o
-rtkrcv     : novatel.o ublox.o ss2.o crescent.o skytraq.o gw10.o javad.o nvs.o binex.o
-rtkrcv     : ephemeris.o rinex.o ionex.o rtcm2.o rtcm3.o rtcm3e.o qzslex.o
+rtkrcv     : novatel.o ublox.o sirf.o ss2.o crescent.o skytraq.o gw10.o javad.o nvs.o
+rtkrcv     : binex.o ephemeris.o rinex.o ionex.o rtcm2.o rtcm3.o rtcm3e.o qzslex.o
 
 rtkrcv.o   : ../rtkrcv.c
 	$(CC) -c $(CFLAGS) ../rtkrcv.c
@@ -58,6 +58,8 @@ novatel.o  : $(SRC)/rcv/novatel.c
 	$(CC) -c $(CFLAGS) $(SRC)/rcv/novatel.c
 ublox.o    : $(SRC)/rcv/ublox.c
 	$(CC) -c $(CFLAGS) $(SRC)/rcv/ublox.c
+sirf.o     : $(SRC)/rcv/sirf.c
+	$(CC) -c $(CFLAGS) $(SRC)/rcv/sirf.c
 ss2.o      : $(SRC)/rcv/ss2.c
 	$(CC) -c $(CFLAGS) $(SRC)/rcv/ss2.c
 crescent.o : $(SRC)/rcv/crescent.c
@@ -100,6 +102,7 @@ pntpos.o   : $(SRC)/rtklib.h
 ppp.o      : $(SRC)/rtklib.h
 novatel.o  : $(SRC)/rtklib.h
 ublox.o    : $(SRC)/rtklib.h
+sirf.o     : $(SRC)/rtklib.h
 ss2.o      : $(SRC)/rtklib.h
 crescent.o : $(SRC)/rtklib.h
 skytraq.o  : $(SRC)/rtklib.h

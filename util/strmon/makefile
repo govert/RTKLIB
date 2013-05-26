@@ -18,7 +18,8 @@ BIN = strmon
 
 all        : $(BIN)
 strmon     : strmon.o rtkcmn.o stream.o rtcm.o rtcm2.o rtcm3.o rtcm3e.o rcvraw.o
-strmon     : crescent.o gw10.o javad.o novatel.o nvs.o rcvlex.o skytraq.o ss2.o ublox.o
+strmon     : crescent.o gw10.o javad.o novatel.o nvs.o rcvlex.o skytraq.o sirf.o
+strmon     : ss2.o ublox.o
 
 strmon.o   : strmon.c
 	$(CC) -c $(CFLAGS) strmon.c
@@ -50,6 +51,8 @@ rcvlex.o   : $(SRC)/rcv/rcvlex.c
 	$(CC) -c $(CFLAGS) $(SRC)/rcv/rcvlex.c
 skytraq.o  : $(SRC)/rcv/skytraq.c
 	$(CC) -c $(CFLAGS) $(SRC)/rcv/skytraq.c
+sirf.o     : $(SRC)/rcv/sirf.c
+	$(CC) -c $(CFLAGS) $(SRC)/rcv/sirf.c
 ss2.o      : $(SRC)/rcv/ss2.c
 	$(CC) -c $(CFLAGS) $(SRC)/rcv/ss2.c
 ublox.o    : $(SRC)/rcv/ublox.c

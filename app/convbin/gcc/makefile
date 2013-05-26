@@ -9,8 +9,8 @@ LDLIBS = -lm -lrt
 
 convbin    : convbin.o rtkcmn.o rinex.o sbas.o preceph.o rcvraw.o convrnx.o
 convbin    : rtcm.o rtcm2.o rtcm3.o rtcm3e.o pntpos.o ephemeris.o ionex.o
-convbin    : novatel.o ss2.o ublox.o crescent.o skytraq.o gw10.o javad.o nvs.o
-convbin    : binex.o qzslex.o
+convbin    : novatel.o sirf.o ss2.o ublox.o crescent.o skytraq.o gw10.o javad.o
+convbin    : nvs.o binex.o qzslex.o
 
 convbin.o  : ../convbin.c
 	$(CC) -c $(CFLAGS) ../convbin.c
@@ -42,6 +42,8 @@ ephemeris.o: $(SRC)/ephemeris.c
 	$(CC) -c $(CFLAGS) $(SRC)/ephemeris.c
 novatel.o  : $(SRC)/rcv/novatel.c
 	$(CC) -c $(CFLAGS) $(SRC)/rcv/novatel.c
+sirf.o     : $(SRC)/rcv/sirf.c
+	$(CC) -c $(CFLAGS) $(SRC)/rcv/sirf.c
 ss2.o      : $(SRC)/rcv/ss2.c
 	$(CC) -c $(CFLAGS) $(SRC)/rcv/ss2.c
 ublox.o    : $(SRC)/rcv/ublox.c

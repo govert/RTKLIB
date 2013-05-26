@@ -53,6 +53,7 @@ static const char *help[]={
 " NovAtel OEM3          : RGEB, REGD, REPB, FRMB, IONB, UTCB",
 " u-blox LEA-4T/5T/6T   : RXM-RAW, RXM-SFRB",
 " NovAtel Superstar II  : ID#20, ID#21, ID#22, ID#23, ID#67",
+" SiRF Star II/III/IV   : MID7, MID8, MID28",
 " Hemisphere            : BIN76, BIN80, BIN94, BIN95, BIN96",
 " SkyTraq S1315F        : msg0xDD, msg0xE0, msg0xDC",
 " GW10                  : msg0x08, msg0x03, msg0x27, msg0x20",
@@ -79,6 +80,7 @@ static const char *help[]={
 "               ubx  = ublox LEA-4T/5T/6T",
 "               ss2  = NovAtel Superstar II",
 "               hemis= Hemisphere Eclipse/Crescent",
+"               sirf = SiRF Star II/III/IV",
 "               stq  = SkyTraq S1315F",
 "               javad= Javad",
 "               nvs  = NVS NV08C BINR",
@@ -126,6 +128,7 @@ static const char *help[]={
 "     *.ubx      u-blox LEA-4T/5T/6T",
 "     *.log      NovAtel Superstar II",
 "     *.bin      Hemisphere Eclipse/Crescent",
+"     *.srf      SiRF Star II/III/IV",
 "     *.stq      SkyTraq S1315F",
 "     *.jps      Javad",
 "     *.bnx,*binex BINEX",
@@ -392,6 +395,7 @@ static int cmdopts(int argc, char **argv, rnxopt_t *opt, char **ifile,
         else if (!strcmp(fmt,"nov"  )) format=STRFMT_OEM4;
         else if (!strcmp(fmt,"oem3" )) format=STRFMT_OEM3;
         else if (!strcmp(fmt,"ubx"  )) format=STRFMT_UBX;
+        else if (!strcmp(fmt,"sirf" )) format=STRFMT_SIRF;
         else if (!strcmp(fmt,"ss2"  )) format=STRFMT_SS2;
         else if (!strcmp(fmt,"hemis")) format=STRFMT_CRES;
         else if (!strcmp(fmt,"stq"  )) format=STRFMT_STQ;
@@ -407,6 +411,7 @@ static int cmdopts(int argc, char **argv, rnxopt_t *opt, char **ifile,
         else if (!strcmp(p,".ubx"  ))  format=STRFMT_UBX;
         else if (!strcmp(p,".log"  ))  format=STRFMT_SS2;
         else if (!strcmp(p,".bin"  ))  format=STRFMT_CRES;
+        else if (!strcmp(p,".srf"  ))  format=STRFMT_SIRF;
         else if (!strcmp(p,".stq"  ))  format=STRFMT_STQ;
         else if (!strcmp(p,".jps"  ))  format=STRFMT_JAVAD;
         else if (!strcmp(p,".bnx"  ))  format=STRFMT_BINEX;
