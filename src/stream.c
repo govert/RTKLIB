@@ -902,10 +902,14 @@ static int gentcp(tcp_t *tcp, int type, char *msg)
         sprintf(msg,"socket error (%d)",errsock());
         tracet(1,"gentcp: socket error err=%d\n",errsock());
         tcp->state=-1;
+        tcp->tcon=ticonnect;
+        tcp->tdis=tickget();
         return 0;
     }
     if (!setsock(tcp->sock,msg)) {
         tcp->state=-1;
+        tcp->tcon=ticonnect;
+        tcp->tdis=tickget();
         return 0;
     }
     memset(&tcp->addr,0,sizeof(tcp->addr));
@@ -924,6 +928,8 @@ static int gentcp(tcp_t *tcp, int type, char *msg)
             tracet(1,"gentcp: bind error port=%d err=%d\n",tcp->port,errsock());
             closesocket(tcp->sock);
             tcp->state=-1;
+            tcp->tcon=ticonnect;
+            tcp->tdis=tickget();
             return 0;
         }
         listen(tcp->sock,5);
@@ -932,9 +938,10 @@ static int gentcp(tcp_t *tcp, int type, char *msg)
         if (!(hp=gethostbyname(tcp->saddr))) {
             sprintf(msg,"address error (%s)",tcp->saddr);
             tracet(1,"gentcp: gethostbyname error addr=%s err=%d\n",tcp->saddr,errsock());
-            tcp->state=1;
             closesocket(tcp->sock);
             tcp->state=-1;
+            tcp->tcon=ticonnect;
+            tcp->tdis=tickget();
             return 0;
         }
         memcpy(&tcp->addr.sin_addr,hp->h_addr,hp->h_length);
@@ -1185,7 +1192,15 @@ static int waittcpcli(tcpcli_t *tcpcli, char *msg)
 {
     tracet(4,"waittcpcli: sock=%d state=%d\n",tcpcli->svr.sock,tcpcli->svr.state);
     
-    if (tcpcli->svr.state<0) return 0;
+    if (tcpcli->svr.state<0) {
+        /* wait re-connect */
+        if (tcpcli->svr.tcon<0||(tcpcli->svr.tcon>0&&
+                    (int)(tickget()-tcpcli->svr.tdis)<tcpcli->svr.tcon)) {
+            return 0;
+        }else {
+            tcpcli->svr.state=0;
+        }
+    }
     
     if (tcpcli->svr.state==0) { /* close */
         if (!gentcp(&tcpcli->svr,1,msg)) return 0;
